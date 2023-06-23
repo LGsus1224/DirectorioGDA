@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="{{url_for('static',filename='')}}images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<link href="{{url_for('static',filename='')}}plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="{{url_for('static',filename='')}}plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="{{url_for('static',filename='')}}plugins/fancy-file-uploader/fancy_fileupload.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="{{url_for('static',filename='')}}css/pace.min.css" rel="stylesheet" />
+	<script src="{{url_for('static',filename='')}}js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="{{url_for('static',filename='')}}css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/bootstrap-extended.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}plugins/select2/css/select2.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/app.css" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/icons.css" rel="stylesheet">
+	<!-- Theme Style CSS -->
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/dark-theme.css" />
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/semi-dark.css" />
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/header-colors.css" />
+	<title>Perfil</title>
+</head>
+
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--start header -->
+		{% include 'components/header.html' %}
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Mi Perfil</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<div class="container">
+					<div class="main-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<form action="{{url_for('mod_owner_bp.update_owner_images',owner_id=owner.id)}}" method="post" enctype="multipart/form-data">
+											{{images_form.csrf_token()}}
+											<div class="row">
+												<div class="col-lg-4">
+													<div class="d-flex flex-column align-items-center text-center">
+														<img src="{{url_for('static',filename=profile_image)}}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+														<div class="mt-3">
+															<h4>{{owner.first_name}} {{owner.last_name}}</h4>
+															<p class="text-secondary mb-1">{{business.tradename}}</p>
+															<p class="text-secondary mb-1">{{business.business_name}}</p>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-5">
+													<div class="d-flex flex-column align-items-center text-center">
+														<img src="{{url_for('static',filename=bg_image)}}" alt="bg" class="rounded p-1 bg-primary" width="100%">
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="row">
+														<div class="card col-12">
+															<div class="card-body">
+																<p class="h6">{{images_form.profile_image.label}}</p>
+																{{images_form.profile_image()}}
+															</div>
+														</div>
+														<div class="card col-12">
+															<div class="card-body">
+																<p class="h6">{{images_form.bg_image.label}}</p>
+																{{images_form.bg_image()}}
+															</div>
+														</div>
+														<div class="form-group d-flex justify-content-center">
+															<button class="btn btn-primary">Actualizar Imagenes</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-12">
+										<form action="{{url_for('mod_owner_bp.update_owner_data',owner_id=owner.id)}}" method="post">
+											{{owner_form.csrf_token()}}
+											<div class="card">
+												<div class="card-body">
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{owner_form.first_name.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{owner_form.first_name(value=owner.first_name)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{owner_form.last_name.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{owner_form.last_name(value=owner.last_name)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{owner_form.email.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{owner_form.email(value=owner.email)}}
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-3"></div>
+														<div class="col-sm-9 text-secondary">
+															<input type="submit" class="btn btn-primary px-4" value="Guardar Cambios" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<form action="{{url_for('mod_owner_bp.update_business_data',business_id=business.id)}}" method="post">
+											{{business_form.csrf_token()}}
+											<div class="card">
+												<div class="card-body">
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{business_form.tradename.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{business_form.tradename(value=business.tradename)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{business_form.business_name.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{business_form.business_name(value=business.business_name)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{business_form.address.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{business_form.address(value=business.address)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{business_form.phone.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{business_form.phone(value=business.phone)}}
+														</div>
+													</div>
+													<div class="row mb-3">
+														<div class="col-sm-3">
+															<h6 class="mb-0">{{business_form.short_description.label}}</h6>
+														</div>
+														<div class="col-sm-9 text-secondary">
+															{{business_form.short_description()}}
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-3"></div>
+														<div class="col-sm-9 text-secondary">
+															<input type="submit" class="btn btn-primary px-4" value="Guardar Cambios" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-12">
+										<form action="{{url_for('mod_owner_bp.update_business_description',business_id=business.id)}}" method="post">
+											{{business_description_form.csrf_token()}}
+											<div class="card">
+												<div class="card-body">
+													<div class="row mb-3">
+														<h6 class="mb-0">{{business_description_form.description.label}}</h6>
+														{{business_description_form.description()}}
+													</div>
+													<div class="row">
+														<div class="col-sm-3"></div>
+														<div class="col-sm-9 text-secondary">
+															<input type="submit" class="btn btn-primary px-4" value="Guardar Cambios" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<form action="{{url_for('mod_owner_bp.update_business_categories_and_labels',business_id=business.id)}}" method="post">
+									{{c_l_form.csrf_token()}}
+									<div class="card">
+										<div class="card-body">
+											<div class="row mb-3">
+												<h6 class="mb-0">{{c_l_form.categories.label}}</h6>
+												{{c_l_form.categories()}}
+											</div>
+											<div class="row mb-3">
+												<h6 class="mb-0">{{c_l_form.labels.label}}</h6>
+												{{c_l_form.labels()}}
+											</div>
+											<div class="row">
+												<input type="submit" class="btn btn-primary px-4" value="Guardar Cambios" />
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-lg-8">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-lg-6">
+												<h6>Galería</h6>
+												<div class="card">
+													<div class="card-body">
+														<div class="row">
+															<style>
+																.b-gallery-bg{
+																	height: 6rem;
+																	width: 6rem;
+																	background-size: cover;
+																	background-position: center;
+																}
+																.b-gallery-bg-sm{
+																	height: 4rem;
+																	width: 4rem;
+																	background-size: cover;
+																	background-position: center;
+																}
+																.btn-selected-to-rmv{
+																	background-color: rgb(237, 61, 61) !important;
+																	border-color: rgb(185, 28, 28) !important;
+																}
+																.btn-selected-to-rmv .b-gallery-bg-sm{
+																	opacity: 0.5;
+																}
+																.btn-selected-to-rmv{
+																	background-color: rgb(194, 50, 50);
+																}
+															</style>
+															{% for i in gallery %}
+															<div class="col-auto">
+																<div style="background-image: url({{url_for('static',filename='images/gallery/'+i)}});" class="b-gallery-bg"></div>
+															</div>
+															{% endfor %}
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<form action="{{url_for('mod_owner_bp.update_business_gallery',business_id=business.id)}}" method="post" enctype="multipart/form-data">
+													{{business_gallery_form.csrf_token()}}
+													<div class="row mb-4">
+														<h6 class="mb-0">{{business_gallery_form.new_images.label}}</h6>
+														{{business_gallery_form.new_images()}}
+													</div>
+													<div class="row mb-0">
+														<h6 class="mb-0">{{business_gallery_form.images_to_delete.label}}</h6>
+														{{business_gallery_form.images_to_delete()}}
+													</div>
+													<div class="row mb-3">
+														<div class="card">
+															<div class="card-body d-flex p-0 pb-2">
+																<div class="row">
+																{% for i in gallery %}
+																	<div class="col-auto p-2">
+																		<div class="btn btn-outline-success p-2" onclick="toggleSelection('{{i}}')">
+																			<div style="background-image: url({{url_for('static',filename='images/gallery/'+i)}});" class="b-gallery-bg-sm"></div>
+																		</div>
+																	</div>
+																{% endfor %}
+																</div>
+															</div>
+														</div>
+													</div>
+													<script>
+														function toggleSelection(image_option) {
+															var selectedOptions = $('#images_to_delete').val() || [];
+															var index = selectedOptions.indexOf(image_option);
+															var $button = $('[onclick="toggleSelection(\'' + image_option + '\')"]');
+															if (index === -1) {
+															  selectedOptions.push(image_option);
+															  $button.addClass('btn-selected-to-rmv');
+															} else {
+															  selectedOptions.splice(index, 1);
+															  $button.removeClass('btn-selected-to-rmv');
+															}
+															$('#images_to_delete').val(selectedOptions);
+														}
+													</script>
+													<div class="row">
+														<input type="submit" class="btn btn-primary px-4" value="Actualizar Galería" />
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+		</footer>
+	</div>
+	<!--end wrapper-->
+	<!-- Bootstrap JS -->
+	<script src="{{url_for('static',filename='')}}js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="{{url_for('static',filename='')}}js/jquery.min.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/fancy-file-uploader/jquery.ui.widget.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/fancy-file-uploader/jquery.fileupload.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/fancy-file-uploader/jquery.iframe-transport.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/fancy-file-uploader/jquery.fancy-fileupload.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/select2/js/select2.min.js"></script>
+	<script>
+		$('.fancy-file-upload').FancyFileUpload({
+			params: {
+				action: 'fileuploader'
+			},
+		});
+		$('.gallery-fancy-file-upload').FancyFileUpload({
+			params: {
+				action: 'fileuploader'
+			},
+			maxfilesize : 2097152,
+			accept: ['png','jpg','jpeg'],
+		});
+		$( '.select' ).select2();
+	</script>
+	<!--app JS-->
+	<script src="{{url_for('static',filename='')}}js/app.js"></script>
+</body>
+
+</html>

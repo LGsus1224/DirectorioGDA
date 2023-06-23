@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="{{url_for('static',filename='')}}images/favicon-32x32.png" type="image/png" />
+	<!--plugins-->
+	<link href="{{url_for('static',filename='')}}plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="{{url_for('static',filename='')}}/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="{{url_for('static',filename='')}}css/pace.min.css" rel="stylesheet" />
+	<script src="{{url_for('static',filename='')}}js/pace.min.js"></script>
+	<!-- Bootstrap CSS -->
+	<link href="{{url_for('static',filename='')}}css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/bootstrap-extended.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/app.css" rel="stylesheet">
+	<link href="{{url_for('static',filename='')}}css/icons.css" rel="stylesheet">
+	<!-- Theme Style CSS -->
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/dark-theme.css" />
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/semi-dark.css" />
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/header-colors.css" />
+	<title>Categoría {{category}}</title>
+</head>
+
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+	 <!--start header wrapper-->
+	  <div class="header-wrapper">
+		<!--start header -->
+		{% include "components/header.html" %}
+		<!--end header -->
+	   </div>
+	   <!--end header wrapper-->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<style>
+					.card-body-extra{
+						display: none;
+					}
+					.card:hover .card-body-extra{
+						display: block;
+					}
+					.card-bg-img{
+						height: 150px;
+						background-position: center;
+						background-size: cover;
+					}
+				</style>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row d-flex justify-content-center">
+									{% for category in html_categories %}
+									<div class="col-auto m-1">
+										<a href="{{url_for('mod_main_bp.business_by_category',category=category)}}">
+											<button type="button" class="btn btn-outline-primary">
+												<div>
+													<i class="{{html_categories[category][0]}}"></i>
+												</div>
+												<div>{{html_categories[category][1]}}</div>
+											</button>
+										</a>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-auto">
+						<div class="d-flex align-items-center">
+							<h5>Se presentan <b>{{current_business|length}}</b> resultados en la categoría </h5>
+							<div class="d-flex align-items-center ms-3">
+								<div class="d-flex justify-content-center align-items-center bg-success rounded-circle h5" style="height: 40px;width: 40px;">
+									<i class="{{html_categories[category][0]}}"></i>
+								</div>
+								<h5>{{html_categories[category][1]}}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid">
+					{% for item in current_business %}
+					<a href="{{url_for('mod_main_bp.business_description',business_id=item.id)}}">
+						<div class="col">
+							<div class="card">
+								<div style="background-image: url({{url_for('static',filename='images/backgrounds/'+item.owner.bg_image)}});" class="card-bg-img"></div>
+								<div class="">
+									<div class="position-absolute top-0 end-0 m-3 product-discount bg-white border-dark rounded p-2 text-decoration-none"><span class="">Click</span></div>
+								</div>
+								<div class="card-body">
+									<h6 class="card-title cursor-pointer">{{item.tradename}}</h6>
+									<div class="clearfix">
+										<p class="mb-0 float-start text-secondary">{{item.short_description}}</p>
+									</div>
+									<div class="card-body-extra">
+										<div class="d-flex justify-content-between">
+											<p class="d-flex pe-2 text-secondary">
+												<i class="fadeIn animated bx bx-phone"></i>
+												{{item.phone}}
+											</p>
+											<p class="d-flex pe-2 text-secondary">
+												<i class="fadeIn animated bx bx-location-plus"></i>
+												{{item.address}}
+											</p>
+										</div>
+									</div>
+									<div class="d-flex align-items-center mt-3 fs-6">
+										<div class="cursor-pointer">
+											{% for c in current_categories[item.id] %}
+												<div class="col-auto m-0 p-0 d-flex align-items-center justify-content-center">
+													<div class="d-flex align-items-center justify-content-center bg-warning rounded-circle" style="height: 42px;width: 42px;">
+														<p class="text-dark h5 p-0 m-0">
+															<i class="{{html_categories[c.category.category.value][0]}}"></i>
+														</p>
+													</div>
+													<div class="text-secondary h6 ms-3">{{html_categories[c.category.category.value][1]}}</div>
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+	</div>
+	<!--end wrapper-->
+	<!-- Bootstrap JS -->
+	<script src="{{url_for('static',filename='')}}js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="{{url_for('static',filename='')}}js/jquery.min.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="{{url_for('static',filename='')}}plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	  <script src="{{url_for('static',filename='')}}js/index.js"></script>
+	<!--app JS-->
+	<script src="{{url_for('static',filename='')}}js/app.js"></script>
+</body>
+
+</html>
